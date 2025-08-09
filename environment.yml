@@ -1,0 +1,15 @@
+name: f_api-recom-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - fastapi
+  - uvicorn
+  - pandas
+  - numpy
+  - pydantic
+  - scikit-learn
+  - pip
+  - pip:
+      - scikit-surprise
