@@ -42,7 +42,7 @@ async def get_user_recommendations(user_id: str, n_recommendations: int = 10):
             return handle_cold_start_user(models['product_popularity'], models['products_df'], n_recommendations)
         else:
             recommender = HybridRecommendationSystem(**models)
-            recommendations = recommender.get_recommendations_for_user(user_id, n_recommendations)
+            recommendations = recommender.get_hybrid_recommendations(user_id, n_recommendations)
             return recommendations
     except Exception as e:
         # Log the error for debugging

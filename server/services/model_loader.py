@@ -26,10 +26,10 @@ def load_models():
                 models[name] = pickle.load(f)
             logger.info(f"Successfully loaded {name}")
 
-        # Load interactions_df separately
-        interactions_csv_path = os.path.join(os.path.dirname(MODEL_FILES['svd_model']), 'interactions.csv')
-        logger.info(f"Loading interactions_df from {interactions_csv_path}")
-        models['interactions_df'] = pd.read_csv(interactions_csv_path)
+        # Load interactions_df from e-commerce-data directory
+        data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'e-commerce-data', 'interactions.csv')
+        logger.info(f"Loading interactions_df from {data_path}")
+        models['interactions_df'] = pd.read_csv(data_path)
         logger.info("Successfully loaded interactions_df")
         
         return models
