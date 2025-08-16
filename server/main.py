@@ -1,7 +1,5 @@
-from typing import Union
-from fastapi import FastAPI, HTTPException
-from services.model_loader import load_models
-from services.recommender import HybridRecommendationSystem
+from fastapi import FastAPI
+from api.endpoints import recommendations
 import logging
 import uvicorn
 
@@ -20,45 +18,18 @@ app = FastAPI(
     debug=True
 )
 
-# Load models and initialize recommender system
-try:
-    logger.debug("Starting to load models...")
-    models = load_models()
-    recommender = HybridRecommendationSystem(**models)
-    logger.info("Recommender system initialized successfully")
-except Exception as e:
-    logger.error(f"Failed to initialize recommender system: {e}")
-    raise
-
+# Include the recommendations router
+app.include_router(
+    recommendations.router,
+    prefix="/api/v1",
+    tags=["recommendations"]
+)
 
 @app.get("/")
 async def read_root():
     """Root endpoint"""
     logger.debug("Root endpoint called")
     return {"message": "E-commerce Recommendation System API"}
-
-
-@app.get("/recommendations/{user_id}")
-def get_recommendations(user_id: str, n_recommendations: int = 10):
-    """
-    Get personalized recommendations for a user
-
-    Args:
-        user_id: User ID for whom to generate recommendations
-        n_recommendations: Number of recommendations to return (default: 10)
-    """
-    try:
-        recommendations = recommender.get_hybrid_recommendations(
-            user_id,
-            n_recommendations
-        )
-        return {"recommendations": recommendations}
-    except Exception as e:
-        logger.error(f"Error generating recommendations: {e}")
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error generating recommendations: {str(e)}"
-        )
 
 
 if __name__ == "__main__":
