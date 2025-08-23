@@ -34,21 +34,55 @@ async def get_user_recommendations(user_id: str, n_recommendations: int = 10):
         A list of recommended products with details.
     """
     try:
-        models = load_models()
+        # Validate input
+        if not user_id or not isinstance(user_id, str):
+            raise HTTPException(status_code=400, detail="Invalid user ID")
+        if n_recommendations <= 0:
+            raise HTTPException(status_code=400, detail="Number of recommendations must be positive")
+
+        # Load models and data
+        try:
+            models = load_models()
+        except Exception as e:
+            logger.error(f"Failed to load models: {str(e)}")
+            raise HTTPException(status_code=500, detail="Failed to initialize recommendation system")
+
+        # Validate required data is available
+        if models.get('interactions_df') is None:
+            logger.error("No interaction data available")
+            raise HTTPException(status_code=500, detail="Recommendation system is not properly initialized")
+
         # Check if user exists in interactions_df
         if user_id not in models['interactions_df']['userId'].unique():
-            print(f"User {user_id} not found. Returning popular products.")
-            # Pass product_popularity and products_df to handle_cold_start_user
-            return handle_cold_start_user(models['product_popularity'], models['products_df'], n_recommendations)
-        else:
-            recommender = HybridRecommendationSystem(**models)
-            recommendations = recommender.get_hybrid_recommendations(user_id, n_recommendations)
+            logger.info(f"User {user_id} not found. Returning popular products.")
+            recommendations = handle_cold_start_user(
+                models.get('product_popularity'), 
+                models.get('db_products', []), 
+                n_recommendations
+            )
+            if not recommendations:
+                logger.warning("No recommendations available for cold start user")
+                return []
             return recommendations
+
+        # Generate recommendations for existing user
+        recommender = HybridRecommendationSystem(**models)
+        recommendations = recommender.get_hybrid_recommendations(user_id, n_recommendations)
+        
+        if not recommendations:
+            logger.warning(f"No recommendations generated for user {user_id}")
+            return []
+            
+        return recommendations
+
+    except HTTPException as he:
+        raise he
     except Exception as e:
-        # Log the error for debugging
-        print(f"An error occurred while generating recommendations for user {user_id}: {e}")
-        # Return an HTTP exception with status code 500 (Internal Server Error)
-        raise HTTPException(status_code=500, detail="An internal server error occurred while generating recommendations.")
+        logger.error(f"An error occurred while generating recommendations for user {user_id}: {str(e)}")
+        raise HTTPException(
+            status_code=500, 
+            detail="An internal server error occurred while generating recommendations."
+        )
     
 
     
