@@ -2,14 +2,16 @@ from typing import List, Dict, Any
 import pandas as pd
 from surprise import SVD, NMF, KNNBasic
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
 
 
+
 class HybridRecommendationSystem:
     def __init__(self, svd_model, nmf_model, knn_model, product_similarity_df,
-                 product_popularity, products_df, interactions_df):
+                 product_popularity, products_df, interactions_df, db_products):
         self.svd_model = svd_model
         self.nmf_model = nmf_model
         self.knn_model = knn_model
@@ -17,6 +19,11 @@ class HybridRecommendationSystem:
         self.product_popularity = product_popularity # This should now be the time-decayed version
         self.products_df = products_df # This should now include one-hot encoded and popularity features
         self.interactions_df = interactions_df # This should now include user and temporal features
+        self.db_products = db_products
+
+
+    
+
 
     def get_user_interactions(self, user_id):
         """Get products a user has interacted with"""
@@ -138,28 +145,14 @@ class HybridRecommendationSystem:
         sorted_recs = sorted(final_recommendations.items(),
                            key=lambda x: x[1], reverse=True)
 
-        print(f"Top collaborative: {cf_recs[:3]}")
-        print(f"Top content-based: {cb_recs[:3]}")
-        print(f"Top popular: {pop_recs[:3]}")
-
 
         # Get product details and convert numpy types
         recommendations_with_details = []
         for product_id, score in sorted_recs[:n_recommendations]:
-            # Find product details using product_id
-            product_details_row = self.products_df[self.products_df['product_id'] == product_id]
-            if not product_details_row.empty:
-                 product_details = product_details_row.iloc[0]
-                 recommendations_with_details.append({
-                    'product_id': product_id,
-                    'product_name': product_details['name'],
-                    'score': float(score), # Convert to float
-                    'category': product_details['category'],
-                    'brand': product_details['brand'],
-                    'avgRating': float(product_details['avgRating']), # Convert to float
-                    'numReviews': int(product_details['numReviews']) # Convert to int
-                })
-
+            # Find product details using product_id from db_products
+            product_details = next((item for item in self.db_products if item.get('_id') == product_id), None)
+            if product_details:
+                recommendations_with_details.append(format_product_details(product_details, score))
         return recommendations_with_details
 
     def get_recommendations_for_product(self, user_id, product_id, n_recommendations=10,
@@ -169,7 +162,7 @@ class HybridRecommendationSystem:
 
         Parameters:
         - user_id: ID of the user.
-        - product_id: ID of the product the user is currently viewing.
+        - product_id: ID of the product being viewed.
         - n_recommendations: Number of recommendations to return.
         - content_weight: Weight for content-based similarity.
         - cf_weight: Weight for collaborative filtering prediction.
@@ -177,7 +170,7 @@ class HybridRecommendationSystem:
         """
         if product_id not in self.product_similarity_df.index:
             print(f"Product {product_id} not found in similarity matrix. Returning popular products.")
-            return handle_cold_start_user(self.product_popularity, self.products_df, n_recommendations)
+            return handle_cold_start_user(self.product_popularity, self.db_products, n_recommendations)
 
         # Get content-based similar products
         # Exclude the product itself and products the user has already interacted with
@@ -214,44 +207,69 @@ class HybridRecommendationSystem:
         # Get product details and convert numpy types
         recommendations_with_details = []
         for product_id, score in sorted_recs[:n_recommendations]:
-            # Find product details using product_id
-            product_details_row = self.products_df[self.products_df['product_id'] == product_id]
-            if not product_details_row.empty:
-                 product_details = product_details_row.iloc[0]
-                 recommendations_with_details.append({
-                    'product_id': product_id,
-                    'product_name': product_details['name'],
-                    'score': float(score), # Convert to float
-                    'category': product_details['category'],
-                    'brand': product_details['brand'],
-                    'avgRating': float(product_details['avgRating']), # Convert to float
-                    'numReviews': int(product_details['numReviews']) # Convert to int
-                })
+            # Find product details using product_id from db_products
+            product_details = next((item for item in self.db_products if item.get('_id') == product_id), None)
+            if product_details:
+                recommendations_with_details.append(format_product_details(product_details, score))
 
         return recommendations_with_details
 
 
 
-def handle_cold_start_user(product_popularity_df, products_df, n_recommendations=10):
+def format_product_details(product_details, score):
+    """Helper function to format product details consistently"""
+    return {
+        'product_id': str(product_details['_id']),
+        'product_name': product_details['name'],
+        'score': float(score),
+        'category': product_details['category'],
+        'brand': product_details['brand'],
+        'description': product_details.get('description', ''),
+        'price': float(product_details.get('price', 0.0)),
+        'listPrice': float(product_details.get('listPrice', 0.0)),
+        'images': product_details.get('images', []),
+        'colors': product_details.get('colors', []),
+        'sizes': product_details.get('sizes', []),
+        'tags': product_details.get('tags', []),
+        'countInStock': int(product_details.get('countInStock', 0)),
+        'slug': product_details.get('slug', ''),
+        'avgRating': float(product_details.get('avgRating', 0.0)),
+        'numReviews': int(product_details.get('numReviews', 0)),
+        'numSales': int(product_details.get('numSales', 0)),
+        'isPublished': product_details.get('isPublished', True),
+        'createdAt': product_details.get('createdAt', ''),
+        'updatedAt': product_details.get('updatedAt', '')
+    }
+
+def handle_cold_start_user(product_popularity_df, db_products_list, n_recommendations=10):
     """Handle recommendations for new users with no interaction history"""
-    # For new users, return popular products
-    popular_products = product_popularity_df.head(n_recommendations)
+    try:
+        if product_popularity_df is None or product_popularity_df.empty:
+            logger.warning("No product popularity data available")
+            return []
+            
+        if not db_products_list:
+            logger.warning("No product details available")
+            return []
 
-    recommendations = []
-    for _, row in popular_products.iterrows():
-        # Ensure product_id exists in products_df before accessing details
-        product_details_row = products_df[products_df['product_id'] == row['product_id']]
-        if not product_details_row.empty:
-            product_details = product_details_row.iloc[0]
-            recommendations.append({
-                'product_id': row['product_id'],
-                'product_name': row['name'],
-                'score': float(row['popularity_score']), # Convert to float
-                'category': product_details['category'],
-                'brand': product_details['brand'],
-                'avgRating': float(row['avgRating']), # Convert to float
-                'numReviews': int(row['numReviews']) # Convert to int
-            })
+        # For new users, return popular products
+        popular_products = product_popularity_df.head(n_recommendations)
+        if popular_products.empty:
+            logger.warning("No popular products found")
+            return []
 
-    return recommendations
+        recommendations = []
+        for _, row in popular_products.iterrows():
+            product_id = row['product_id']
+            if not product_id:
+                continue
+                
+            # Find product details using product_id from db_products_list
+            product_details = next((item for item in db_products_list if item.get('_id') == product_id), None)
+            if product_details:
+                recommendations.append(format_product_details(product_details, float(row['popularity_score'])))
+        return recommendations
+    except Exception as e:
+        logger.error(f"Error in handle_cold_start_user: {str(e)}")
+        return []
 
