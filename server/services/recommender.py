@@ -217,10 +217,14 @@ class HybridRecommendationSystem:
 
 
 def format_product_details(product_details, score):
-    """Helper function to format product details consistently"""
+    rating_dist = product_details.get('ratingDistribution', [])
+    if isinstance(rating_dist, list):
+        rating_dist_dict = {str(item['rating']): item['count'] for item in rating_dist}
+    else:
+        rating_dist_dict = rating_dist if isinstance(rating_dist, dict) else {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0}
     return {
-        'product_id': str(product_details['_id']),
-        'product_name': product_details['name'],
+        '_id': str(product_details['_id']),
+        'name': product_details['name'],
         'score': float(score),
         'category': product_details['category'],
         'brand': product_details['brand'],
@@ -238,7 +242,8 @@ def format_product_details(product_details, score):
         'numSales': int(product_details.get('numSales', 0)),
         'isPublished': product_details.get('isPublished', True),
         'createdAt': product_details.get('createdAt', ''),
-        'updatedAt': product_details.get('updatedAt', '')
+        'updatedAt': product_details.get('updatedAt', ''),
+        "ratingDistribution": rating_dist_dict
     }
 
 def handle_cold_start_user(product_popularity_df, db_products_list, n_recommendations=10):
