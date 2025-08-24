@@ -3,6 +3,8 @@ import pandas as pd
 from surprise import SVD, NMF, KNNBasic
 import logging
 import json
+import os
+from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
 
@@ -246,9 +248,30 @@ def format_product_details(product_details, score):
         "ratingDistribution": rating_dist_dict
     }
 
-def handle_cold_start_user(product_popularity_df, db_products_list, n_recommendations=10):
-    """Handle recommendations for new users with no interaction history"""
+def handle_cold_start_user(product_popularity_df, db_products_list, n_recommendations=10, cache_duration_hours=120):
+    """Handle recommendations for new users with no interaction history with caching"""
     try:
+        cache_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+                                     'e-commerce-data', 
+                                     'cold_start_cache.json')
+        
+        # Try to load from cache first
+        if os.path.exists(cache_file_path):
+            try:
+                with open(cache_file_path, 'r', encoding='utf-8') as f:
+                    cache_data = json.load(f)
+                
+                # Check if cache is still valid
+                cache_time = datetime.fromisoformat(cache_data.get('timestamp', '2000-01-01'))
+                if datetime.now() - cache_time < timedelta(hours=cache_duration_hours):
+                    logger.info("Returning cold start recommendations from cache")
+                    return cache_data.get('recommendations', [])
+            except Exception as e:
+                logger.warning(f"Error reading cache file: {e}")
+                # Continue with normal processing if cache read fails
+        
+        # If we get here, either cache doesn't exist, is invalid, or had an error
+        # Process recommendations normally
         if product_popularity_df is None or product_popularity_df.empty:
             logger.warning("No product popularity data available")
             return []
@@ -273,6 +296,21 @@ def handle_cold_start_user(product_popularity_df, db_products_list, n_recommenda
             product_details = next((item for item in db_products_list if item.get('_id') == product_id), None)
             if product_details:
                 recommendations.append(format_product_details(product_details, float(row['popularity_score'])))
+        
+        # Cache the results
+        if recommendations:
+            try:
+                cache_data = {
+                    'timestamp': datetime.now().isoformat(),
+                    'recommendations': recommendations
+                }
+                with open(cache_file_path, 'w', encoding='utf-8') as f:
+                    json.dump(cache_data, f, indent=2, ensure_ascii=False)
+                logger.info("Cold start recommendations cached successfully")
+            except Exception as e:
+                logger.warning(f"Error writing to cache file: {e}")
+                # Continue even if caching fails
+                
         return recommendations
     except Exception as e:
         logger.error(f"Error in handle_cold_start_user: {str(e)}")
