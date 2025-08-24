@@ -87,14 +87,14 @@ async def get_user_recommendations(user_id: str, n_recommendations: int = 10):
 
     
 @router.get("/recommendations/{user_id}/{product_id}", 
-            response_model=RecommendationResponse,
+            response_model=List[Dict[str, Any]],
             tags=["recommendations"])
 async def get_product_recommendations(
     user_id: str,
     product_id: str,
     n_recommendations: int = 10,
     recommender: HybridRecommendationSystem = Depends(get_recommender)
-) -> RecommendationResponse:
+) -> List[Dict[str, Any]]:
     """
     Get recommendations for a specific product viewed by a user.
 
@@ -116,7 +116,11 @@ async def get_product_recommendations(
             product_id, 
             n_recommendations
         )
-        return RecommendationResponse(recommendations=recommendations)
+        
+        if not recommendations:
+            return []
+            
+        return recommendations
     except Exception as e:
         logger.error(f"Error generating product recommendations for user {user_id} and product {product_id}: {e}")
         raise HTTPException(
