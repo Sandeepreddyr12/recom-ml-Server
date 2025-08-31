@@ -1,0 +1,440 @@
+{
+  "timestamp": "2025-08-30T08:59:11.841801",
+  "recommendations": [
+    {
+      "_id": "68a5ed923d297682284a19a0",
+      "name": "Killer Jeans Ripped Jeans",
+      "score": 0.6776628026964076,
+      "category": "Jeans",
+      "brand": "Killer Jeans",
+      "description": "Experience the perfect blend of style and comfort with this ripped and boot-cut jeans from Killer Jeans. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 127.17,
+      "listPrice": 181.56,
+      "images": [
+        "/media/jeans4.jpg",
+        "/media/jeans5.jpg"
+      ],
+      "colors": [
+        "Black",
+        "Light Blue",
+        "Grey",
+        "Blue"
+      ],
+      "sizes": [
+        "34Wx30L",
+        "32Wx30L",
+        "36Wx30L",
+        "38Wx30L"
+      ],
+      "tags": [
+        "best-seller"
+      ],
+      "countInStock": 40,
+      "slug": "killer-jeans-ripped-jeans",
+      "avgRating": 4.62,
+      "numReviews": 135,
+      "numSales": 173,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:22.845Z",
+      "updatedAt": "2025-08-20T15:45:22.845Z",
+      "ratingDistribution": {
+        "1": 13,
+        "2": 12,
+        "3": 22,
+        "4": 61,
+        "5": 27
+      }
+    },
+    {
+      "_id": "68a5ed933d297682284a1a68",
+      "name": "DNMX Lightweight T-shirt",
+      "score": 0.6705276156003571,
+      "category": "T-Shirts",
+      "brand": "DNMX",
+      "description": "Experience the perfect blend of style and comfort with this lightweight and baggy t-shirt from DNMX. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 46.77,
+      "listPrice": 52.52,
+      "images": [
+        "/media/tshirt5.jpg",
+        "/media/tshirt6.jpg"
+      ],
+      "colors": [
+        "White",
+        "Red",
+        "Green"
+      ],
+      "sizes": [
+        "M",
+        "XL",
+        "L",
+        "S"
+      ],
+      "tags": [
+        "best-seller"
+      ],
+      "countInStock": 89,
+      "slug": "dnmx-lightweight-t-shirt",
+      "avgRating": 3.72,
+      "numReviews": 113,
+      "numSales": 136,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:23.301Z",
+      "updatedAt": "2025-08-20T15:45:23.301Z",
+      "ratingDistribution": {
+        "1": 33,
+        "2": 24,
+        "3": 22,
+        "4": 10,
+        "5": 24
+      }
+    },
+    {
+      "_id": "68a5ed933d297682284a1a7a",
+      "name": "Arrow Leather Shoe",
+      "score": 0.6645509098196647,
+      "category": "Shoes",
+      "brand": "Arrow",
+      "description": "Experience the perfect blend of style and comfort with this leather and sneakers shoe from Arrow. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 61.98,
+      "listPrice": 95.21,
+      "images": [
+        "/media/shoes2.jpg",
+        "/media/shoes3.jpg"
+      ],
+      "colors": [
+        "Red",
+        "Grey",
+        "Brown"
+      ],
+      "sizes": [
+        "8",
+        "12",
+        "9",
+        "7",
+        "11"
+      ],
+      "tags": [
+        "best-seller",
+        "featured"
+      ],
+      "countInStock": 89,
+      "slug": "arrow-leather-shoe",
+      "avgRating": 4.52,
+      "numReviews": 190,
+      "numSales": 157,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:23.391Z",
+      "updatedAt": "2025-08-20T15:45:23.391Z",
+      "ratingDistribution": {
+        "1": 19,
+        "2": 17,
+        "3": 30,
+        "4": 86,
+        "5": 38
+      }
+    },
+    {
+      "_id": "68a5ed913d297682284a1934",
+      "name": "Reebok Breathable Shoe",
+      "score": 0.6581903209698408,
+      "category": "Shoes",
+      "brand": "Reebok",
+      "description": "Experience the perfect blend of style and comfort with this breathable and running shoe from Reebok. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 198.75,
+      "listPrice": 281.94,
+      "images": [
+        "/media/shoes9.jpg",
+        "/media/shoes10.jpg"
+      ],
+      "colors": [
+        "Black",
+        "Red"
+      ],
+      "sizes": [
+        "7",
+        "11",
+        "12"
+      ],
+      "tags": [
+        "best-seller"
+      ],
+      "countInStock": 51,
+      "slug": "reebok-breathable-shoe",
+      "avgRating": 4.19,
+      "numReviews": 191,
+      "numSales": 191,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:21.564Z",
+      "updatedAt": "2025-08-20T15:45:21.564Z",
+      "ratingDistribution": {
+        "1": 38,
+        "2": 30,
+        "3": 36,
+        "4": 43,
+        "5": 44
+      }
+    },
+    {
+      "_id": "68a5ed923d297682284a1984",
+      "name": "Tommy Hilfiger Cotton T-shirt",
+      "score": 0.6508952888413115,
+      "category": "T-Shirts",
+      "brand": "Tommy Hilfiger",
+      "description": "Experience the perfect blend of style and comfort with this cotton and comfortable t-shirt from Tommy Hilfiger. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 67.84,
+      "listPrice": 108.97,
+      "images": [
+        "/media/tshirt8.jpg",
+        "/media/tshirt9.jpg"
+      ],
+      "colors": [
+        "White",
+        "Red",
+        "Yellow",
+        "Green"
+      ],
+      "sizes": [
+        "S",
+        "XXL",
+        "XL",
+        "L"
+      ],
+      "tags": [
+        "best-seller"
+      ],
+      "countInStock": 49,
+      "slug": "tommy-hilfiger-cotton-t-shirt",
+      "avgRating": 3.38,
+      "numReviews": 193,
+      "numSales": 171,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:22.842Z",
+      "updatedAt": "2025-08-20T15:45:22.842Z",
+      "ratingDistribution": {
+        "1": 57,
+        "2": 40,
+        "3": 38,
+        "4": 17,
+        "5": 41
+      }
+    },
+    {
+      "_id": "68a5ed913d297682284a18a1",
+      "name": "Tommy Hilfiger Black Jeans",
+      "score": 0.6501450399155843,
+      "category": "Jeans",
+      "brand": "Tommy Hilfiger",
+      "description": "Experience the perfect blend of style and comfort with this black and high-rise jeans from Tommy Hilfiger. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 83.97,
+      "listPrice": 0.0,
+      "images": [
+        "/media/jeans9.jpg",
+        "/media/jeans1.jpg"
+      ],
+      "colors": [
+        "Blue",
+        "Light Blue",
+        "Black"
+      ],
+      "sizes": [
+        "36Wx30L",
+        "32Wx30L",
+        "38Wx30L",
+        "34Wx30L"
+      ],
+      "tags": [
+        "best-seller"
+      ],
+      "countInStock": 24,
+      "slug": "tommy-hilfiger-black-jeans",
+      "avgRating": 4.06,
+      "numReviews": 168,
+      "numSales": 72,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:21.067Z",
+      "updatedAt": "2025-08-20T15:45:21.067Z",
+      "ratingDistribution": {
+        "1": 33,
+        "2": 27,
+        "3": 32,
+        "4": 38,
+        "5": 38
+      }
+    },
+    {
+      "_id": "68a5ed933d297682284a19e4",
+      "name": "Relaxo Breathable Shoe",
+      "score": 0.6407235051613817,
+      "category": "Shoes",
+      "brand": "Relaxo",
+      "description": "Experience the perfect blend of style and comfort with this breathable and slip-ons shoe from Relaxo. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 199.29,
+      "listPrice": 0.0,
+      "images": [
+        "/media/shoes7.jpg",
+        "/media/shoes8.jpg"
+      ],
+      "colors": [
+        "Red",
+        "Blue",
+        "Black",
+        "Brown"
+      ],
+      "sizes": [
+        "8",
+        "12",
+        "7",
+        "10"
+      ],
+      "tags": [
+        "best-seller"
+      ],
+      "countInStock": 47,
+      "slug": "relaxo-breathable-shoe",
+      "avgRating": 3.84,
+      "numReviews": 186,
+      "numSales": 87,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:23.088Z",
+      "updatedAt": "2025-08-20T15:45:23.088Z",
+      "ratingDistribution": {
+        "1": 55,
+        "2": 39,
+        "3": 36,
+        "4": 16,
+        "5": 40
+      }
+    },
+    {
+      "_id": "68a5ed913d297682284a18c4",
+      "name": "Levi's Black Jeans",
+      "score": 0.6289138151495767,
+      "category": "Jeans",
+      "brand": "Levi's",
+      "description": "Experience the perfect blend of style and comfort with this black and high-rise jeans from Levi's. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 186.92,
+      "listPrice": 266.48,
+      "images": [
+        "/media/jeans6.jpg",
+        "/media/jeans7.jpg"
+      ],
+      "colors": [
+        "Blue",
+        "Black",
+        "Grey"
+      ],
+      "sizes": [
+        "30Wx30L",
+        "34Wx30L",
+        "36Wx30L",
+        "32Wx30L",
+        "38Wx30L"
+      ],
+      "tags": [
+        "best-seller"
+      ],
+      "countInStock": 30,
+      "slug": "levis-black-jeans",
+      "avgRating": 3.54,
+      "numReviews": 173,
+      "numSales": 37,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:21.305Z",
+      "updatedAt": "2025-08-20T15:45:21.305Z",
+      "ratingDistribution": {
+        "1": 51,
+        "2": 36,
+        "3": 34,
+        "4": 15,
+        "5": 37
+      }
+    },
+    {
+      "_id": "68a5ed933d297682284a1a50",
+      "name": "American Crew Slim-fit T-shirt",
+      "score": 0.623822181145361,
+      "category": "T-Shirts",
+      "brand": "American Crew",
+      "description": "Experience the perfect blend of style and comfort with this slim-fit and stretchable t-shirt from American Crew. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 55.41,
+      "listPrice": 0.0,
+      "images": [
+        "/media/tshirt1.jpg",
+        "/media/tshirt2.jpg"
+      ],
+      "colors": [
+        "White",
+        "Yellow",
+        "Blue",
+        "Red"
+      ],
+      "sizes": [
+        "XL",
+        "M",
+        "L",
+        "XXL"
+      ],
+      "tags": [
+        "best-seller"
+      ],
+      "countInStock": 48,
+      "slug": "american-crew-slim-fit-t-shirt",
+      "avgRating": 4.61,
+      "numReviews": 125,
+      "numSales": 73,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:23.297Z",
+      "updatedAt": "2025-08-20T15:45:23.297Z",
+      "ratingDistribution": {
+        "1": 12,
+        "2": 11,
+        "3": 20,
+        "4": 57,
+        "5": 25
+      }
+    },
+    {
+      "_id": "68a5ed923d297682284a1997",
+      "name": "Liberty Slip-ons Shoe",
+      "score": 0.6183477111710862,
+      "category": "Shoes",
+      "brand": "Liberty",
+      "description": "Experience the perfect blend of style and comfort with this slip-ons and running shoe from Liberty. Designed to elevate your everyday look, it's a great choice for any occasion.",
+      "price": 81.65,
+      "listPrice": 0.0,
+      "images": [
+        "/media/shoes7.jpg",
+        "/media/shoes8.jpg"
+      ],
+      "colors": [
+        "Red",
+        "Black",
+        "Brown",
+        "Grey"
+      ],
+      "sizes": [
+        "7",
+        "12",
+        "11"
+      ],
+      "tags": [
+        "best-seller"
+      ],
+      "countInStock": 63,
+      "slug": "liberty-slip-ons-shoe",
+      "avgRating": 4.77,
+      "numReviews": 190,
+      "numSales": 187,
+      "isPublished": true,
+      "createdAt": "2025-08-20T15:45:22.844Z",
+      "updatedAt": "2025-08-20T15:45:22.844Z",
+      "ratingDistribution": {
+        "1": 19,
+        "2": 17,
+        "3": 30,
+        "4": 86,
+        "5": 38
+      }
+    }
+  ]
+}

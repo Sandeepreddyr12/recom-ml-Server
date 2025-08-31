@@ -41,17 +41,23 @@ f_api-recom-env/
 # PyCharm
 .idea/
 
-# ML Models and Data
+# ML Models and Data - except for specific required files
+# Exclude all model files by default
 *.pkl
 *.h5
 *.model
 *.joblib
 *.pickle
-server/e-commerce-models/
 *.csv
 *.json
 *.npy
 *.npz
+
+# But include specific model files and data needed for the application
+!server/e-commerce-models/*.pkl
+!server/e-commerce-models/*.json
+!server/e-commerce-data/*.csv
+!server/e-commerce-data/*.json
 
 # Logs
 *.log
