@@ -12,3 +12,6 @@ venv/
 .vscode
 *.md
 f_api-recom-env/
+/eComRecom.ipynb
+/environment.yml
+/info.py

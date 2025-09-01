@@ -1,11 +1,5 @@
-# Use Python 3.11 slim image as base
-FROM python:3.11-slim-bullseye
-
-# Upgrade system packages to address vulnerabilities
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# Use Python 3.10 slim image for better compatibility
+FROM python:3.10-slim-bullseye
 
 # Set working directory
 WORKDIR /app
@@ -14,22 +8,34 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
+    python3-dev \
+    libgomp1 \
+    gfortran \
+    libopenblas-dev \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first to leverage Docker cache
-COPY requirements.txt .
+# Install build dependencies
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir wheel setuptools Cython
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install numpy first (required for scikit-surprise build)
+RUN pip install --no-cache-dir numpy==1.23.5
+
+# Copy requirements and install other dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir scikit-surprise==1.1.1 && \
+    grep -v "scikit-surprise" requirements.txt | pip install --no-cache-dir -r /dev/stdin
 
 # Copy the application code
 COPY . .
 
-# Make sure the models directory exists and is accessible
-RUN mkdir -p e-commerce-models
+# Make sure necessary directories exist
+RUN mkdir -p e-commerce-models e-commerce-data
 
-# Copy model files
+# Copy model and data files
 COPY e-commerce-models/* e-commerce-models/
+COPY e-commerce-data/* e-commerce-data/
 
 # Expose the port the app runs on
 EXPOSE 8000

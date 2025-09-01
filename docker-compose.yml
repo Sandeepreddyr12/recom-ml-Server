@@ -10,6 +10,7 @@ services:
     volumes:
       - ./server:/app
       - ./server/e-commerce-models:/app/e-commerce-models
+      - ./server/e-commerce-data:/app/e-commerce-data
     environment:
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
