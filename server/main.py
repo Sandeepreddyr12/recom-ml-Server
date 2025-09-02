@@ -57,6 +57,11 @@ app.include_router(
     tags=["recommendations"]
 )
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "timestamp": time.time()}
+
 @app.get("/")
 async def read_root():
     """Root endpoint"""
