@@ -72,21 +72,26 @@ USER appuser
 EXPOSE 8000
 
 # Set resource limits and runtime optimizations
-ENV UVICORN_WORKERS=4 \
+ENV UVICORN_WORKERS=1 \
     UVICORN_LOOP=uvloop \
     UVICORN_HTTP=httptools \
-    PYTHONHASHSEED=random
+    PYTHONHASHSEED=random \
+    MALLOC_TRIM_THRESHOLD_=100000 \
+    PYTHONWARNINGS="ignore" \
+    SKLEARN_ENABLE_CYTHON="false"
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+# Health check with longer intervals to reduce overhead
+HEALTHCHECK --interval=60s --timeout=10s --start-period=30s --retries=3 \
     CMD wget --no-verbose --tries=1 --spider http://localhost:8000/health || exit 1
 
-# Command to run the application with optimized settings
+# Command to run the application with memory-optimized settings
 CMD ["uvicorn", "main:app", \
      "--host", "0.0.0.0", \
      "--port", "8000", \
-     "--workers", "4", \
+     "--workers", "1", \
      "--loop", "uvloop", \
      "--http", "httptools", \
      "--proxy-headers", \
-     "--no-access-log"]
+     "--no-access-log", \
+     "--limit-concurrency", "20", \
+     "--timeout-keep-alive", "5"]
