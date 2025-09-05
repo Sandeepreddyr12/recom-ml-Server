@@ -8,9 +8,33 @@ services:
     ports:
       - '8000:8000'
     volumes:
-      - ./server:/app
-      - ./server/e-commerce-models:/app/e-commerce-models
-      - ./server/e-commerce-data:/app/e-commerce-data
+      - models_volume:/app/e-commerce-models:ro
+      - data_volume:/app/e-commerce-data:ro
+      - cache_volume:/app/cache
     environment:
       - PYTHONUNBUFFERED=1
+      - PORT=8000
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+volumes:
+  models_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/server/e-commerce-models
+  data_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/server/e-commerce-data
+  cache_volume:
