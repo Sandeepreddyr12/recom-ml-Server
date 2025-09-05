@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: recom-ml-api
+    env: docker
+    dockerfilePath: ./server/Dockerfile
+    plan: free
+    numInstances: 1
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PORT
+        value: 8000
